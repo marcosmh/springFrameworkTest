@@ -1,6 +1,8 @@
 package com.xpertia.software.springboot.backend.apirest.models.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,5 +32,8 @@ public class Cliente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createAt;
 
-
+    @PrePersist
+    public void prePersist() {
+        createAt = new Date();
+    }
 }
