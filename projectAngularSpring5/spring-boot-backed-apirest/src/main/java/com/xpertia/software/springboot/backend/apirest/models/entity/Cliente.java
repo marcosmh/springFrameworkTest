@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,12 +22,18 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
 
+    @NotEmpty
+    @Size(min=1, max=50)
     @Column(name="nombre",nullable = false)
     private String nombre;
 
+    @NotEmpty
+    @Size(min=1, max=50)
     @Column(name="apellido",nullable = false)
     private String apellido;
 
+    @NotEmpty
+    @Email
     @Column(name="email",nullable = false, unique = true)
     private String email;
 
