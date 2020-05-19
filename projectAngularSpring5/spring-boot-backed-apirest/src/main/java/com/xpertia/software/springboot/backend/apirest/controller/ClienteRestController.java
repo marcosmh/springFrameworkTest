@@ -7,7 +7,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,9 +50,22 @@ public class ClienteRestController {
     }
 
     @PostMapping("/clientes")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Cliente saveCliente(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
+    public ResponseEntity<?> saveCliente(@RequestBody Cliente cliente) {
+        Map<String, Object> response = new HashMap<>();
+        Cliente clienteNew = null;
+
+        try {
+            clienteNew = clienteService.save(cliente);
+        } catch(DataAccessException e) {
+            response.put("mensaje","Error al guardar el insert en la base de datos.");
+            response.put("error",e.getMessage().concat(" : ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("mensaje","El cliente ha sido creado con exito!");
+        response.put("cliente",clienteNew);
+
+        return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
     }
 
     @PutMapping("/clientes/{id}")
