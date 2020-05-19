@@ -35,11 +35,11 @@ public class ClienteRestController {
         }  catch(DataAccessException e ) {
             response.put("mensaje","Error al consultar en la base de datos.");
             response.put("error",e.getMessage().concat(" : ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(NumberFormatException e ) {
             response.put("mensaje","El ID debe ser de tipo númerico.");
             response.put("error",e.getMessage());
-            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if(null == cliente) {
