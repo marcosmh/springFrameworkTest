@@ -38,6 +38,9 @@ export class ClienteService {
   getCliente(id): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
         catchError (e => {
+              if(e.status == 400) {
+                return throwError(e);
+              }
               this.router.navigate(['/clientes']);
               console.log(e.error.mensaje);
               swal.fire('Error al consultar',e.error.mensaje,'error');
@@ -50,6 +53,9 @@ export class ClienteService {
     return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.httpHeaders}).
       pipe(
         catchError (e => {
+              if(e.status == 400) {
+                return throwError(e);
+              }
               console.log(e.error.mensaje);
               swal.fire('Error al actualizar el cliente',e.error.mensaje,'error');
               return throwError(e);
