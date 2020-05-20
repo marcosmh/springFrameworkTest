@@ -14,6 +14,7 @@ import { FormComponent } from './clientes/form.component';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 registerLocaleData(localeES,'es');
 
@@ -34,7 +35,8 @@ const routes: Routes = [
     FooterComponent,
     DirectivaComponent,
     ClientesComponent,
-    FormComponent
+    FormComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,
