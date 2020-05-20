@@ -1,9 +1,6 @@
 package com.xpertia.software.springboot.backend.apirest.models.entity;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
