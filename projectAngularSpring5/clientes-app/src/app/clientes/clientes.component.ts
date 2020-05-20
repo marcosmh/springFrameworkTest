@@ -3,6 +3,7 @@ import swal from 'sweetalert2';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import { tap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 const swalWithBootstrapButtons = swal.mixin({
   customClass: {
@@ -21,26 +22,33 @@ export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(
+    private clienteService: ClienteService,
+    private activatedRoute: ActivatedRoute ) { }
 
   ngOnInit(): void {
-    let page = 0;
 
-    this.clienteService.listClientes()
-      .subscribe(
-        clientes => this.clientes = clientes
-      );
+    //this.clienteService.listClientes().subscribe(clientes => this.clientes = clientes);
 
-    this.clienteService.getClientes(page)
-      .pipe(
-        tap( response => {
-          console.log('ClientesComponent: tap3');
-          (response.content as Cliente[]).forEach( cliente => {
-            console.log(cliente.nombre);
+      this.activatedRoute.paramMap.subscribe( params => {
+         let page: number = +params.get('page');
+        if(!page) {
+          page = 0;
+        }
+
+        this.clienteService.getClientes(page)
+          .pipe(
+            tap( response => {
+              console.log('ClientesComponent: tap3');
+              (response.content as Cliente[]).forEach( cliente => {
+                console.log(cliente.nombre);
+                })
             })
-        })
-      )
-      .subscribe( response => this.clientes = response.content as Cliente[] );
+          )
+          .subscribe( response => this.clientes = response.content as Cliente[] );
+
+      });
+
 
   }
 
